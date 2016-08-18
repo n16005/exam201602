@@ -2,7 +2,6 @@ import math
 from datetime import date
 
 
-
 # 'hello, {name}!'と出力してください 。
 def hello(name):
     print('hello, {0}!'.format(name))
