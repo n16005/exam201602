@@ -3,9 +3,10 @@ import random
 
 
 class Ball:
-    def __init__(self, canvas, paddle, color):
+    def __init__(self, canvas, paddle, score, color):
         self.canvas = canvas
         self.paddle = paddle
+        self.score = score
         self.id = canvas.create_oval(10, 10, 25, 25, fill=color)
         self.canvas.move(self.id, 245, 100)
         self.x = random.choice((-3, -2, -1, 1, 2, 3))
@@ -67,6 +68,17 @@ class Paddle:
     def turn_right(self, event):
         self.x = 2
 
+class Score:
+    def __init__(self, canvas, color):
+        self.score = 0
+        self.canvas = canvas
+        self.id = canvas.create_text(450, 10, text=self.score, fill=color)
+
+    def hit(self):
+        self.score += 1
+        self.canvas.itemconfig(self.id, text=self.score)
+
+
 
 tk = Tk()
 tk.title("Game")
@@ -76,9 +88,10 @@ c = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
 c.pack()
 tk.update()
 
+s = Score(c, 'green')
 p = Paddle(c, 'blue')
-ball = Ball(c, p, 'red')
-
+ball = Ball(c, p, s, 'red')
+game_over_text = c.create_text(250, 200, text='GAME OVER', state='hidden')
 
 def update():
     if not ball.hit_bottom:
